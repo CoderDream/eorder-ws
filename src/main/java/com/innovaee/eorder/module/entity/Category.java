@@ -110,8 +110,7 @@ public class Category extends BaseEntity {
 		return createAt;
 	}
 
-	public void setCreateAt(
-			@XmlJavaTypeAdapter(TimestampAdapter.class) Timestamp createAt) {
+	public void setCreateAt(Timestamp createAt) {
 		this.createAt = createAt;
 	}
 
@@ -120,8 +119,7 @@ public class Category extends BaseEntity {
 		return updateAt;
 	}
 
-	public void setUpdateAt(
-			@XmlJavaTypeAdapter(TimestampAdapter.class) Timestamp updateAt) {
+	public void setUpdateAt(Timestamp updateAt) {
 		this.updateAt = updateAt;
 	}
 
