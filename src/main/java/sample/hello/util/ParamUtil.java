@@ -13,4 +13,14 @@ public class ParamUtil {
 		}
 		return params;
 	}
+
+	public static Map<Integer, String> parseInteger(String paramString) {
+		Map<Integer, String> params = new HashMap<Integer, String>();
+		String[] paramPairs = paramString.split("&");
+		for (String param : paramPairs) {
+			String[] key_value = param.split("=");
+			params.put(Integer.parseInt(key_value[0]), key_value[1]);
+		}
+		return params;
+	}
 }
