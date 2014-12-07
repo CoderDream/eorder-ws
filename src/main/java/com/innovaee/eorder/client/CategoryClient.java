@@ -24,12 +24,12 @@ public class CategoryClient {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// addCategory();
-		// getAllCategorys();
+		addCategory();
+		getAllCategorys();
 		updateCategory();
-		// getCategoryById();
-		// getAllCategorys();
-		// delCategory();
+		getCategoryById();
+		getAllCategorys();
+		delCategory();
 		getAllCategorys();
 	}
 
@@ -42,7 +42,7 @@ public class CategoryClient {
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(serverUri + "/categorys");
 		Response response = target.request()
-				.buildPost(Entity.entity(category, MediaType.APPLICATION_XML))
+				.buildPost(Entity.entity(category, MediaType.APPLICATION_JSON))
 				.invoke();
 		response.close();
 	}
@@ -67,7 +67,7 @@ public class CategoryClient {
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(serverUri + "/categorys");
 		Response response = target.request()
-				.buildPut(Entity.entity(category, MediaType.APPLICATION_XML))
+				.buildPut(Entity.entity(category, MediaType.APPLICATION_JSON))
 				.invoke();
 		response.close();
 	}

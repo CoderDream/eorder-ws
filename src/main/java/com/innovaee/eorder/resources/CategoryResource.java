@@ -53,7 +53,7 @@ public class CategoryResource {
 	 * @param category
 	 */
 	@PUT
-	@Consumes(MediaType.APPLICATION_XML)
+	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public void updateCategory(Category category) {
 		categoryDaoImpl.updateCategory(category);
 	}

@@ -3,47 +3,27 @@ package com.innovaee.eorder.bean;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.innovaee.eorder.module.util.TimestampAdapter;
 
-@Entity
-@Table(name = "t_category")
 @XmlRootElement
-public class Category extends BaseEntity {
-
-	@Override
-	public Serializable getPK() {
-		return categoryId;
-	}
+public class Category implements Serializable {
 
 	// 用户id, 不能为空, 必须唯一
-	@Id
-	@Column(name = "category_id", unique = true, nullable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer categoryId;
 
 	// 分类名称
-	@Column(name = "category_name")
 	private String categoryName;
 
 	// 分类图片地址
-	@Column(name = "category_picture")
 	private String categoryPicture;
 
 	// 创建时间
-	@Column(name = "create_at")
 	private Timestamp createAt;
 
 	// 更新时间
-	@Column(name = "update_at")
 	private Timestamp updateAt;
 
 	public Category() {
