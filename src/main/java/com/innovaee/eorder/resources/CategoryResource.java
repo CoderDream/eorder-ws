@@ -1,4 +1,4 @@
-package sample.hello.resources;
+package com.innovaee.eorder.resources;
 
 import java.util.Map;
 
@@ -15,10 +15,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.JAXBElement;
 
-import sample.hello.storage.CategoryStore;
-import sample.hello.util.ParamUtil;
-
+import com.innovaee.eorder.dao.CategoryDao;
 import com.innovaee.eorder.module.entity.Category;
+import com.innovaee.eorder.storage.CategoryStore;
+import com.innovaee.eorder.util.ParamUtil;
 import com.sun.jersey.api.NotFoundException;
 
 public class CategoryResource {
@@ -26,9 +26,11 @@ public class CategoryResource {
 	UriInfo uriInfo;
 	@Context
 	Request request;
-	Integer categoryId;
+	String categoryId;
 
-	public CategoryResource(UriInfo uriInfo, Request request, Integer categoryId) {
+	CategoryDao categoryDao = new CategoryDao();
+
+	public CategoryResource(UriInfo uriInfo, Request request, String categoryId) {
 		this.uriInfo = uriInfo;
 		this.request = request;
 		this.categoryId = categoryId;
@@ -37,10 +39,11 @@ public class CategoryResource {
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Category getCategory() {
-		Category cont = CategoryStore.getStore().get(categoryId);
-		if (cont == null)
+		Category category = categoryDao.findCategory(categoryId);
+		if (category == null) {
 			throw new NotFoundException("No such Category.");
-		return cont;
+		}
+		return category;
 	}
 
 	@PUT
@@ -52,9 +55,9 @@ public class CategoryResource {
 
 	@PUT
 	public Response putCategory(@Context HttpHeaders herders, byte[] in) {
-		Map<Integer, String> params = ParamUtil.parseInteger(new String(in));
-		Category c = new Category(Integer.parseInt(params.get("id")),
-				params.get("name"));
+		Map<String, String> params = ParamUtil.parse(new String(in));
+		Category c = new Category(Integer.parseInt(params.get("categoryId")),
+				params.get("categoryName"));
 		return putAndGetResponse(c);
 	}
 
@@ -65,14 +68,24 @@ public class CategoryResource {
 		} else {
 			res = Response.created(uriInfo.getAbsolutePath()).build();
 		}
-		CategoryStore.getStore().put(c.getCategoryId(), c);
+		CategoryStore.getStore().put(c.getCategoryId().toString(), c);
 		return res;
 	}
 
 	@DELETE
 	public void deleteCategory() {
 		Category c = CategoryStore.getStore().remove(categoryId);
-		if (c == null)
+		if (c == null) {
 			throw new NotFoundException("No such Category.");
+		}
 	}
+
+	public CategoryDao getCategoryDao() {
+		return categoryDao;
+	}
+
+	public void setCategoryDao(CategoryDao categoryDao) {
+		this.categoryDao = categoryDao;
+	}
+
 }

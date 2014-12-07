@@ -1,4 +1,4 @@
-package sample.hello.resources;
+package com.innovaee.eorder.resources;
 
 import java.io.IOException;
 import java.net.URI;
@@ -19,12 +19,12 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import sample.hello.bean.Address;
-import sample.hello.bean.Contact;
-import sample.hello.storage.ContactStore;
+import com.innovaee.eorder.module.entity.Dish;
+import com.innovaee.eorder.storage.DishStore;
 
-@Path("/contacts")
-public class ContactsResource {
+
+@Path("/dishs")
+public class DishsResource {
 
 	@Context
 	UriInfo uriInfo;
@@ -33,38 +33,38 @@ public class ContactsResource {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public List<Contact> getContacts() {
-		List<Contact> contacts = new ArrayList<Contact>();
-		contacts.addAll(ContactStore.getStore().values());
-		return contacts;
+	public List<Dish> getDishs() {
+		List<Dish> dishs = new ArrayList<Dish>();
+		dishs.addAll(DishStore.getStore().values());
+		return dishs;
 	}
 
 	@GET
 	@Path("count")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getCount() {
-		int count = ContactStore.getStore().size();
+		int count = DishStore.getStore().size();
 		return String.valueOf(count);
 	}
 
 	@POST
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public void newContact(@FormParam("id") String id,
+	public void newDish(@FormParam("id") String id,
 			@FormParam("name") String name,
 			@Context HttpServletResponse servletResponse) throws IOException {
-		Contact c = new Contact(id, name, new ArrayList<Address>());
-		ContactStore.getStore().put(id, c);
+		Dish c = new Dish(Integer.parseInt(id), name);
+		DishStore.getStore().put(id, c);
 
 		URI uri = uriInfo.getAbsolutePathBuilder().path(id).build();
 		Response.created(uri).build();
 
-		servletResponse.sendRedirect("../pages/new_contact.jsp");
+		servletResponse.sendRedirect("../pages/new_dish.jsp");
 	}
 
-	@Path("{contact}")
-	public ContactResource getContact(@PathParam("contact") String contact) {
-		return new ContactResource(uriInfo, request, contact);
+	@Path("{dish}")
+	public DishResource getDish(@PathParam("dish") String dish) {
+		return new DishResource(uriInfo, request, dish);
 	}
 
 }

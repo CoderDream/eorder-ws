@@ -1,4 +1,4 @@
-package sample.hello.storage;
+package com.innovaee.eorder.storage;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -9,15 +9,15 @@ import java.util.Map;
 import com.innovaee.eorder.module.entity.Category;
 
 public class CategoryStore {
-	private static Map<Integer, Category> store;
+	private static Map<String, Category> store;
 	private static CategoryStore instance = null;
 
 	private CategoryStore() {
-		store = new HashMap<Integer, Category>();
+		store = new HashMap<String, Category>();
 		initOneCategory();
 	}
 
-	public static Map<Integer, Category> getStore() {
+	public static Map<String, Category> getStore() {
 		if (instance == null) {
 			instance = new CategoryStore();
 		}
@@ -25,7 +25,7 @@ public class CategoryStore {
 	}
 
 	private static void initOneCategory() {
-		Integer categoryId = 1;
+		String categoryId = "1";
 		String categoryName = "分类1";
 		String categoryPicture = "xxx/xxx.jpg";
 		Timestamp createAt = Timestamp.valueOf(new SimpleDateFormat(
@@ -34,8 +34,9 @@ public class CategoryStore {
 		Timestamp updateAt = Timestamp.valueOf(new SimpleDateFormat(
 				"yyyy-MM-dd hh:mm:ss.SSS").format(Calendar.getInstance()
 				.getTime()));
-		Category cHuang = new Category(categoryId, categoryName,
-				categoryPicture, createAt, updateAt);
-		store.put(cHuang.getCategoryId(), cHuang);
+		Category cHuang = new Category(Integer.parseInt(categoryId),
+				categoryName, categoryPicture, createAt, updateAt);
+		store.put(cHuang.getCategoryId().toString(), cHuang);
 	}
+
 }
