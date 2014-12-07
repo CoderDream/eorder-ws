@@ -25,49 +25,63 @@
 		<dbunit.version>2.4.8</dbunit.version>
 
 
+		<hibernate.version>4.3.7.Final</hibernate.version>
+		<hibernate.annotations.version>3.4.0.GA</hibernate.annotations.version>
+		<hibernate.commons.version>3.3.0.ga</hibernate.commons.version>
+
+
 		<toplink.essentials.version>2.1-60f</toplink.essentials.version>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-core</artifactId>
-			<version>${jersey.version}</version>
-		</dependency>
 
 		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-server</artifactId>
-			<version>${jersey.version}</version>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.0.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-client</artifactId>
-			<version>${jersey.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-bundle</artifactId>
-			<version>${jersey.version}</version>
-		</dependency>
+		<!-- <dependency> <groupId>com.sun.jersey</groupId> <artifactId>jersey-core</artifactId> 
+			<version>${jersey.version}</version> </dependency> <dependency> <groupId>com.sun.jersey</groupId> 
+			<artifactId>jersey-server</artifactId> <version>${jersey.version}</version> </dependency> 
+			<dependency> <groupId>com.sun.jersey</groupId> <artifactId>jersey-client</artifactId> 
+			<version>${jersey.version}</version> </dependency> <dependency> <groupId>com.sun.jersey</groupId> 
+			<artifactId>jersey-bundle</artifactId> <version>${jersey.version}</version> </dependency> -->
 
 		<!-- <dependency> <groupId>com.sun.jersey.contribs</groupId> <artifactId>jersey-spring</artifactId> 
 			<version>${jersey.version}</version> </dependency> -->
 
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-json</artifactId>
-			<version>${jersey.version}</version>
-		</dependency>
-
+		<!-- <dependency> <groupId>com.sun.jersey</groupId> <artifactId>jersey-json</artifactId> 
+			<version>${jersey.version}</version> </dependency> -->
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
-			<artifactId>jsr311-api</artifactId>
-			<version>${jsr.version}</version>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.0.1</version>
 		</dependency>
 
+		<!-- <dependency> <groupId>com.sun.jersey.samples</groupId> <artifactId>jacksonjsonprovider</artifactId> 
+			<version>1.18.2</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>2.13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+			<version>2.13</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>javax.ws.rs</groupId> <artifactId>jsr311-api</artifactId> 
+			<version>${jsr.version}</version> </dependency> -->
 		<dependency>
 			<groupId>asm</groupId>
 			<artifactId>asm</artifactId>
@@ -114,6 +128,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+			<scope>compile</scope>
+		</dependency>
 
 		<!-- common-lang -->
 		<dependency>
@@ -165,6 +186,12 @@
 			<groupId>toplink.essentials</groupId>
 			<artifactId>toplink-essentials-agent</artifactId>
 			<version>${toplink.essentials.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>stax</groupId>
+			<artifactId>stax</artifactId>
+			<version>1.2.0</version>
 		</dependency>
 
 		<!-- mysql connector -->

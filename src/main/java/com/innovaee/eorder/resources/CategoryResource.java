@@ -1,91 +1,88 @@
 package com.innovaee.eorder.resources;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import javax.xml.bind.JAXBElement;
 
-import com.innovaee.eorder.dao.CategoryDao;
-import com.innovaee.eorder.module.entity.Category;
-import com.innovaee.eorder.storage.CategoryStore;
-import com.innovaee.eorder.util.ParamUtil;
-import com.sun.jersey.api.NotFoundException;
+import com.innovaee.eorder.bean.Category;
+import com.innovaee.eorder.dao.impl.CategoryDaoImpl;
 
+/**
+ * 用户资源
+ * 
+ * @author waylau.com 2014-3-19
+ */
+@Path("/categorys")
 public class CategoryResource {
-	@Context
-	UriInfo uriInfo;
-	@Context
-	Request request;
-	String categoryId;
+	private CategoryDaoImpl categoryDaoImpl = new CategoryDaoImpl();
 
-	CategoryDao categoryDao = new CategoryDao();
-
-	public CategoryResource(UriInfo uriInfo, Request request, String categoryId) {
-		this.uriInfo = uriInfo;
-		this.request = request;
-		this.categoryId = categoryId;
+	/**
+	 * 增加
+	 * 
+	 * @param category
+	 */
+	@POST
+	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public void createCategory(Category category) {
+		categoryDaoImpl.createCategory(category);
 	}
 
+	/**
+	 * 删除
+	 * 
+	 * @param id
+	 */
+	@DELETE
+	@Path("{id}")
+	public void deleteCategory(@PathParam("id") String id) {
+		categoryDaoImpl.deleteCategoryById(id);
+	}
+
+	/**
+	 * 修改
+	 * 
+	 * @param category
+	 */
+	@PUT
+	@Consumes(MediaType.APPLICATION_XML)
+	public void updateCategory(Category category) {
+		categoryDaoImpl.updateCategory(category);
+	}
+
+	/**
+	 * 根据id查询
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@GET
+	@Path("{id}")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Category getCategoryById(@PathParam("id") String id) {
+		Category u = categoryDaoImpl.getCategoryById(id);
+		return u;
+	}
+
+	/**
+	 * 查询所有
+	 * 
+	 * @return
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Category getCategory() {
-		Category category = categoryDao.findCategory(categoryId);
-		if (category == null) {
-			throw new NotFoundException("No such Category.");
-		}
-		return category;
-	}
-
-	@PUT
-	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response putCategory(JAXBElement<Category> jaxbCategory) {
-		Category c = jaxbCategory.getValue();
-		return putAndGetResponse(c);
-	}
-
-	@PUT
-	public Response putCategory(@Context HttpHeaders herders, byte[] in) {
-		Map<String, String> params = ParamUtil.parse(new String(in));
-		Category c = new Category(Integer.parseInt(params.get("categoryId")),
-				params.get("categoryName"));
-		return putAndGetResponse(c);
-	}
-
-	private Response putAndGetResponse(Category c) {
-		Response res;
-		if (CategoryStore.getStore().containsKey(c.getCategoryId())) {
-			res = Response.noContent().build();
-		} else {
-			res = Response.created(uriInfo.getAbsolutePath()).build();
-		}
-		CategoryStore.getStore().put(c.getCategoryId().toString(), c);
-		return res;
-	}
-
-	@DELETE
-	public void deleteCategory() {
-		Category c = CategoryStore.getStore().remove(categoryId);
-		if (c == null) {
-			throw new NotFoundException("No such Category.");
-		}
-	}
-
-	public CategoryDao getCategoryDao() {
-		return categoryDao;
-	}
-
-	public void setCategoryDao(CategoryDao categoryDao) {
-		this.categoryDao = categoryDao;
+	public List<Category> getAllCategorys() {
+		List<Category> categorys = new ArrayList<Category>();
+		categorys = categoryDaoImpl.getAllCategorys();
+		return categorys;
 	}
 
 }

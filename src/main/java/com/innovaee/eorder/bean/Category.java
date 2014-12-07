@@ -1,4 +1,4 @@
-package com.innovaee.eorder.module.entity;
+package com.innovaee.eorder.bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -47,6 +47,10 @@ public class Category extends BaseEntity {
 	private Timestamp updateAt;
 
 	public Category() {
+	}
+
+	public Category(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 	public Category(Integer categoryId) {
@@ -121,6 +125,13 @@ public class Category extends BaseEntity {
 
 	public void setUpdateAt(Timestamp updateAt) {
 		this.updateAt = updateAt;
+	}
+
+	@Override
+	public String toString() {
+		return "Category [categoryId=" + categoryId + ", categoryName="
+				+ categoryName + ", categoryPicture=" + categoryPicture
+				+ ", createAt=" + createAt + ", updateAt=" + updateAt + "]";
 	}
 
 }
