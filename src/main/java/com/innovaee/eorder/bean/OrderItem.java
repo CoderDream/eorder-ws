@@ -36,8 +36,8 @@ public class OrderItem extends BaseEntity {
 	private Integer dishId;
 
 	// 菜品数量
-	@Column(name = "dish_account")
-	private Integer dishAccount;
+	@Column(name = "dish_amount")
+	private Integer dishAmount;
 
 	// 创建时间
 	@Column(name = "create_at")
@@ -51,12 +51,12 @@ public class OrderItem extends BaseEntity {
 	}
 
 	public OrderItem(Integer orderItemId, Integer orderId, Integer dishId,
-			Integer dishAccount, Timestamp createAt, Timestamp updateAt) {
+			Integer dishAmount, Timestamp createAt, Timestamp updateAt) {
 		super();
 		this.orderItemId = orderItemId;
 		this.orderId = orderId;
 		this.dishId = dishId;
-		this.dishAccount = dishAccount;
+		this.dishAmount = dishAmount;
 		this.createAt = createAt;
 		this.updateAt = updateAt;
 	}
@@ -85,12 +85,12 @@ public class OrderItem extends BaseEntity {
 		this.dishId = dishId;
 	}
 
-	public Integer getDishAccount() {
-		return dishAccount;
+	public Integer getDishAmount() {
+		return dishAmount;
 	}
 
-	public void setDishAccount(Integer dishAccount) {
-		this.dishAccount = dishAccount;
+	public void setDishAmount(Integer dishAmount) {
+		this.dishAmount = dishAmount;
 	}
 
 	public Timestamp getCreateAt() {
@@ -112,7 +112,7 @@ public class OrderItem extends BaseEntity {
 	@Override
 	public String toString() {
 		return "OrderItem [orderItemId=" + orderItemId + ", orderId=" + orderId
-				+ ", dishId=" + dishId + ", dishAccount=" + dishAccount
+				+ ", dishId=" + dishId + ", dishAmount=" + dishAmount
 				+ ", createAt=" + createAt + ", updateAt=" + updateAt + "]";
 	}
 

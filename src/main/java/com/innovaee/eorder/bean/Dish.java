@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.innovaee.eorder.module.util.TimestampAdapter;
+import com.innovaee.eorder.util.TimestampAdapter;
 
 @Entity
 @Table(name = "t_dish")
@@ -43,8 +43,8 @@ public class Dish extends BaseEntity {
 	private String dishPicture;
 
 	// 菜品价格
-	@Column(name = "price")
-	private float price;
+	@Column(name = "dish_price")
+	private float dishPrice;
 
 	// 在售状态
 	@Column(name = "on_sell")
@@ -94,14 +94,14 @@ public class Dish extends BaseEntity {
 	}
 
 	public Dish(Integer dishId, Integer categoryId, String dishName,
-			String dishPicture, float price, boolean onSell, String misc,
+			String dishPicture, float dishPrice, boolean onSell, String misc,
 			Timestamp createAt, Timestamp updateAt) {
 		super();
 		this.dishId = dishId;
 		this.categoryId = categoryId;
 		this.dishName = dishName;
 		this.dishPicture = dishPicture;
-		this.price = price;
+		this.dishPrice = dishPrice;
 		this.onSell = onSell;
 		this.misc = misc;
 		this.createAt = createAt;
@@ -166,12 +166,12 @@ public class Dish extends BaseEntity {
 		this.categoryId = categoryId;
 	}
 
-	public float getPrice() {
-		return price;
+	public float getDishPrice() {
+		return dishPrice;
 	}
 
-	public void setPrice(float price) {
-		this.price = price;
+	public void setDishPrice(float dishPrice) {
+		this.dishPrice = dishPrice;
 	}
 
 	public boolean isOnSell() {
@@ -194,7 +194,7 @@ public class Dish extends BaseEntity {
 	public String toString() {
 		return "Dish [dishId=" + dishId + ", categoryId=" + categoryId
 				+ ", dishName=" + dishName + ", dishPicture=" + dishPicture
-				+ ", price=" + price + ", onSell=" + onSell + ", misc=" + misc
+				+ ", dishPrice=" + dishPrice + ", onSell=" + onSell + ", misc=" + misc
 				+ ", createAt=" + createAt + ", updateAt=" + updateAt + "]";
 	}
 

@@ -7,24 +7,24 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.innovaee.eorder.bean.Order;
-import com.innovaee.eorder.dao.OrderDao;
+import com.innovaee.eorder.bean.OrderItem;
+import com.innovaee.eorder.dao.OrderItemDao;
 import com.innovaee.eorder.util.HibernateUtil;
 
-public class OrderDaoImpl implements OrderDao {
+public class OrderItemDaoImpl implements OrderItemDao {
 
 	@Override
-	public Order getOrderById(String id) {
+	public OrderItem getOrderItemById(String orderItemId) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
-		Order order = null;
+		OrderItem orderItem = null;
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			String hql = "from Order where orderId=" + id;
+			String hql = "from OrderItem where orderItemId=" + orderItemId;
 			Query query = s.createQuery(hql);
-			order = (Order) query.uniqueResult();
+			orderItem = (OrderItem) query.uniqueResult();
 			t.commit();
 		} catch (Exception err) {
 			t.rollback();
@@ -32,11 +32,11 @@ public class OrderDaoImpl implements OrderDao {
 		} finally {
 			s.close();
 		}
-		return order;
+		return orderItem;
 	}
 
 	@Override
-	public boolean deleteOrderById(String id) {
+	public boolean deleteOrderItemById(String id) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
@@ -44,30 +44,9 @@ public class OrderDaoImpl implements OrderDao {
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			Order order = new Order();
-			order.setOrderId(Integer.parseInt(id));
-			s.delete(order);
-			t.commit();
-			flag = true;
-		} catch (Exception err) {
-			t.rollback();
-			err.printStackTrace();
-		} finally {
-			s.close();
-		}
-		return flag;
-	}
-
-	@Override
-	public boolean createOrder(Order order) {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-		Session s = null;
-		Transaction t = null;
-		boolean flag = false;
-		try {
-			s = sessionFactory.openSession();
-			t = s.beginTransaction();
-			s.save(order);
+			OrderItem orderItem = new OrderItem();
+			orderItem.setOrderItemId(Integer.parseInt(id));
+			s.delete(orderItem);
 			t.commit();
 			flag = true;
 		} catch (Exception err) {
@@ -80,7 +59,7 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public boolean updateOrder(Order order) {
+	public boolean createOrderItem(OrderItem orderItem) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
@@ -88,7 +67,28 @@ public class OrderDaoImpl implements OrderDao {
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			s.update(order);
+			s.save(orderItem);
+			t.commit();
+			flag = true;
+		} catch (Exception err) {
+			t.rollback();
+			err.printStackTrace();
+		} finally {
+			s.close();
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean updateOrderItem(OrderItem orderItem) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session s = null;
+		Transaction t = null;
+		boolean flag = false;
+		try {
+			s = sessionFactory.openSession();
+			t = s.beginTransaction();
+			s.update(orderItem);
 			t.commit();
 			flag = true;
 		} catch (Exception err) {
@@ -102,18 +102,18 @@ public class OrderDaoImpl implements OrderDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Order> getAllOrders() {
+	public List<OrderItem> getAllOrderItems() {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
-		List<Order> orders = null;
+		List<OrderItem> orderItems = null;
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			String hql = "select * from t_order";
-			Query query = s.createSQLQuery(hql).addEntity(Order.class);
+			String hql = "select * from t_order_item";
+			Query query = s.createSQLQuery(hql).addEntity(OrderItem.class);
 			query.setCacheable(true); // 设置缓存
-			orders = query.list();
+			orderItems = query.list();
 			t.commit();
 		} catch (Exception err) {
 			t.rollback();
@@ -121,23 +121,23 @@ public class OrderDaoImpl implements OrderDao {
 		} finally {
 			s.close();
 		}
-		return orders;
+		return orderItems;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Order> getOrdersByMemberId(String memberId) {
+	public List<OrderItem> getOrderItemsByOrderId(String orderId) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
-		List<Order> orders = null;
+		List<OrderItem> orderItems = null;
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			String hql = "select * from t_order where member_id=" + memberId;
-			Query query = s.createSQLQuery(hql).addEntity(Order.class);
+			String hql = "select * from t_order_item where order_id=" + orderId;
+			Query query = s.createSQLQuery(hql).addEntity(OrderItem.class);
 			query.setCacheable(true); // 设置缓存
-			orders = query.list();
+			orderItems = query.list();
 			t.commit();
 		} catch (Exception err) {
 			t.rollback();
@@ -145,7 +145,7 @@ public class OrderDaoImpl implements OrderDao {
 		} finally {
 			s.close();
 		}
-		return orders;
+		return orderItems;
 	}
 
 }

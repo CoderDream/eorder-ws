@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.innovaee.eorder.module.util.TimestampAdapter;
+import com.innovaee.eorder.util.TimestampAdapter;
 
 @Entity
 @Table(name = "t_category")

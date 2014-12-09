@@ -13,6 +13,5 @@ public class RestApplication extends ResourceConfig {
 		packages("com.innovaee.eorder.resources");
 		// 注册JSON转换器
 		register(JacksonJsonProvider.class);
-
 	}
 }

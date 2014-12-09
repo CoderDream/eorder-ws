@@ -28,7 +28,7 @@ public class UserLevel extends BaseEntity {
 	private Integer levelId;
 
 	// 名称
-	@Column(name = "levelname")
+	@Column(name = "level_name")
 	private String levelName;
 
 	// 折扣

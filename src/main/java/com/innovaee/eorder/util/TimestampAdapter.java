@@ -1,4 +1,4 @@
-package com.innovaee.eorder.module.util;
+package com.innovaee.eorder.util;
 
 import java.util.Date;
 import java.sql.Timestamp;

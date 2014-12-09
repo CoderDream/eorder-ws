@@ -15,5 +15,7 @@ public interface OrderDao {
 	public boolean updateOrder(Order order);
 
 	public List<Order> getAllOrders();
+	
+	public List<Order> getOrdersByMemberId(String memberId);
 
 }

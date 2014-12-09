@@ -1,5 +1,6 @@
 package com.innovaee.eorder.resources;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +16,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.beanutils.BeanUtils;
+
 import com.innovaee.eorder.bean.Order;
+import com.innovaee.eorder.bean.User;
 import com.innovaee.eorder.dao.impl.OrderDaoImpl;
+import com.innovaee.eorder.dao.impl.UserDaoImpl;
+import com.innovaee.eorder.vo.OrderVO;
 
 /**
  * 订单资源
@@ -25,6 +31,8 @@ import com.innovaee.eorder.dao.impl.OrderDaoImpl;
 @Path("/orders")
 public class OrderResource {
 	private OrderDaoImpl orderDaoImpl = new OrderDaoImpl();
+
+	private UserDaoImpl userDaoImpl = new UserDaoImpl();
 
 	/**
 	 * 增加
@@ -85,6 +93,32 @@ public class OrderResource {
 		orders = orderDaoImpl.getAllOrders();
 		Map<String, List<Order>> result = new HashMap<String, List<Order>>();
 		result.put("orders", orders);
+		return result;
+	}
+
+	@GET
+	@Path("/myorders/{cellphone}")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Map<String, List<OrderVO>> getOrderesById(
+			@PathParam("cellphone") String cellphone) {
+		User user = userDaoImpl.getUserByCellphone(cellphone);
+		List<OrderVO> orderVOs = new ArrayList<OrderVO>();
+		List<Order> orders = orderDaoImpl.getOrdersByMemberId(user.getUserId()
+				.toString());
+		for (Order order : orders) {
+			OrderVO orderVO = new OrderVO();
+			try {
+				BeanUtils.copyProperties(orderVO, order);
+				orderVOs.add(orderVO);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+
+		Map<String, List<OrderVO>> result = new HashMap<String, List<OrderVO>>();
+		result.put("orders", orderVOs);
 		return result;
 	}
 
