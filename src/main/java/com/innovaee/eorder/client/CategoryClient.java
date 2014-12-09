@@ -14,7 +14,6 @@ import com.innovaee.eorder.bean.Category;
 /**
  * 分类客户端，用来测试资源
  * 
- * @author waylau.com 2014-3-18
  */
 public class CategoryClient {
 

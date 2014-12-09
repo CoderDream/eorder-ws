@@ -15,26 +15,26 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.innovaee.eorder.bean.Category;
-import com.innovaee.eorder.dao.impl.CategoryDaoImpl;
+import com.innovaee.eorder.bean.Order;
+import com.innovaee.eorder.dao.impl.OrderDaoImpl;
 
 /**
- * 用户资源
+ * 订单资源
  * 
  */
-@Path("/categories")
-public class CategoryResource {
-	private CategoryDaoImpl categoryDaoImpl = new CategoryDaoImpl();
+@Path("/orders")
+public class OrderResource {
+	private OrderDaoImpl orderDaoImpl = new OrderDaoImpl();
 
 	/**
 	 * 增加
 	 * 
-	 * @param category
+	 * @param order
 	 */
 	@POST
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public void createCategory(Category category) {
-		categoryDaoImpl.createCategory(category);
+	public void createOrder(Order order) {
+		orderDaoImpl.createOrder(order);
 	}
 
 	/**
@@ -44,19 +44,19 @@ public class CategoryResource {
 	 */
 	@DELETE
 	@Path("{id}")
-	public void deleteCategory(@PathParam("id") String id) {
-		categoryDaoImpl.deleteCategoryById(id);
+	public void deleteOrder(@PathParam("id") String id) {
+		orderDaoImpl.deleteOrderById(id);
 	}
 
 	/**
 	 * 修改
 	 * 
-	 * @param category
+	 * @param order
 	 */
 	@PUT
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public void updateCategory(Category category) {
-		categoryDaoImpl.updateCategory(category);
+	public void updateOrder(Order order) {
+		orderDaoImpl.updateOrder(order);
 	}
 
 	/**
@@ -68,8 +68,8 @@ public class CategoryResource {
 	@GET
 	@Path("{id}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Category getCategoryById(@PathParam("id") String id) {
-		Category u = categoryDaoImpl.getCategoryById(id);
+	public Order getOrderById(@PathParam("id") String id) {
+		Order u = orderDaoImpl.getOrderById(id);
 		return u;
 	}
 
@@ -80,11 +80,11 @@ public class CategoryResource {
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Map<String, List<Category>> getAllCategorys() {
-		List<Category> categories = new ArrayList<Category>();
-		categories = categoryDaoImpl.getAllCategorys();
-		Map<String, List<Category>> result = new HashMap<String, List<Category>>();
-		result.put("categories", categories);
+	public Map<String, List<Order>> getAllOrders() {
+		List<Order> orders = new ArrayList<Order>();
+		orders = orderDaoImpl.getAllOrders();
+		Map<String, List<Order>> result = new HashMap<String, List<Order>>();
+		result.put("orders", orders);
 		return result;
 	}
 

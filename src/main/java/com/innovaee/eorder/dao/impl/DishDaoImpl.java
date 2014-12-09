@@ -7,24 +7,24 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.innovaee.eorder.bean.Category;
-import com.innovaee.eorder.dao.CategoryDao;
+import com.innovaee.eorder.bean.Dish;
+import com.innovaee.eorder.dao.DishDao;
 import com.innovaee.eorder.util.HibernateUtil;
 
-public class CategoryDaoImpl implements CategoryDao {
+public class DishDaoImpl implements DishDao {
 
 	@Override
-	public Category getCategoryById(String id) {
+	public Dish getDishById(String id) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
-		Category category = null;
+		Dish dish = null;
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			String hql = "from Category where categoryId=" + id;
+			String hql = "from Dish where dishId=" + id;
 			Query query = s.createQuery(hql);
-			category = (Category) query.uniqueResult();
+			dish = (Dish) query.uniqueResult();
 			t.commit();
 		} catch (Exception err) {
 			t.rollback();
@@ -32,11 +32,36 @@ public class CategoryDaoImpl implements CategoryDao {
 		} finally {
 			s.close();
 		}
-		return category;
+		return dish;
 	}
 
 	@Override
-	public boolean deleteCategoryById(String id) {
+	@SuppressWarnings("unchecked")
+	public List<Dish> getDishesByCategoryId(String categoryId) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session s = null;
+		Transaction t = null;
+
+		List<Dish> dishes = null;
+		try {
+			s = sessionFactory.openSession();
+			t = s.beginTransaction();
+			String hql = "from Dish where categoryId=" + categoryId;
+			Query query = s.createQuery(hql);
+			query.setCacheable(true); // 设置缓存
+			dishes = query.list();
+			t.commit();
+		} catch (Exception err) {
+			t.rollback();
+			err.printStackTrace();
+		} finally {
+			s.close();
+		}
+		return dishes;
+	}
+
+	@Override
+	public boolean deleteDishById(String id) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
@@ -44,9 +69,9 @@ public class CategoryDaoImpl implements CategoryDao {
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			Category category = new Category();
-			category.setCategoryId(Integer.parseInt(id));
-			s.delete(category);
+			Dish dish = new Dish();
+			dish.setDishId(Integer.parseInt(id));
+			s.delete(dish);
 			t.commit();
 			flag = true;
 		} catch (Exception err) {
@@ -59,7 +84,7 @@ public class CategoryDaoImpl implements CategoryDao {
 	}
 
 	@Override
-	public boolean createCategory(Category category) {
+	public boolean createDish(Dish dish) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
@@ -67,7 +92,7 @@ public class CategoryDaoImpl implements CategoryDao {
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			s.save(category);
+			s.save(dish);
 			t.commit();
 			flag = true;
 		} catch (Exception err) {
@@ -80,7 +105,7 @@ public class CategoryDaoImpl implements CategoryDao {
 	}
 
 	@Override
-	public boolean updateCategory(Category category) {
+	public boolean updateDish(Dish dish) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
@@ -88,7 +113,7 @@ public class CategoryDaoImpl implements CategoryDao {
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			s.update(category);
+			s.update(dish);
 			t.commit();
 			flag = true;
 		} catch (Exception err) {
@@ -102,18 +127,18 @@ public class CategoryDaoImpl implements CategoryDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Category> getAllCategorys() {
+	public List<Dish> getAllDishes() {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
-		List<Category> uesrs = null;
+		List<Dish> dishes = null;
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			String hql = "select * from t_category";
-			Query query = s.createSQLQuery(hql).addEntity(Category.class);
+			String hql = "select * from t_dish";
+			Query query = s.createSQLQuery(hql).addEntity(Dish.class);
 			query.setCacheable(true); // 设置缓存
-			uesrs = query.list();
+			dishes = query.list();
 			t.commit();
 		} catch (Exception err) {
 			t.rollback();
@@ -121,7 +146,7 @@ public class CategoryDaoImpl implements CategoryDao {
 		} finally {
 			s.close();
 		}
-		return uesrs;
+		return dishes;
 	}
 
 }

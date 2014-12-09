@@ -30,9 +30,13 @@
 		<!-- Drop and re-create the database schema on startup -->
 		<property name="hbm2ddl.auto">update</property>
 
-		 <mapping class="com.innovaee.eorder.bean.Category" />
-<!--
-		<mapping resource="com/innovaee/eorder/bean/Category.hbm.xml"/> -->
+		<mapping class="com.innovaee.eorder.bean.Category" />
+		<mapping class="com.innovaee.eorder.bean.Dish" />
+		<mapping class="com.innovaee.eorder.bean.Order" />
+		<mapping class="com.innovaee.eorder.bean.OrderItem" />
+		<mapping class="com.innovaee.eorder.bean.User" />
+		<mapping class="com.innovaee.eorder.bean.UserLevel" />
+		<!-- <mapping resource="com/innovaee/eorder/bean/Category.hbm.xml"/> -->
 		<!-- <mapping resource="org/hibernate/tutorial/domain/Event.hbm.xml"/> -->
 
 

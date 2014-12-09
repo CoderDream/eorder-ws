@@ -7,24 +7,24 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.innovaee.eorder.bean.Category;
-import com.innovaee.eorder.dao.CategoryDao;
+import com.innovaee.eorder.bean.Order;
+import com.innovaee.eorder.dao.OrderDao;
 import com.innovaee.eorder.util.HibernateUtil;
 
-public class CategoryDaoImpl implements CategoryDao {
+public class OrderDaoImpl implements OrderDao {
 
 	@Override
-	public Category getCategoryById(String id) {
+	public Order getOrderById(String id) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
-		Category category = null;
+		Order order = null;
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			String hql = "from Category where categoryId=" + id;
+			String hql = "from Order where orderId=" + id;
 			Query query = s.createQuery(hql);
-			category = (Category) query.uniqueResult();
+			order = (Order) query.uniqueResult();
 			t.commit();
 		} catch (Exception err) {
 			t.rollback();
@@ -32,11 +32,11 @@ public class CategoryDaoImpl implements CategoryDao {
 		} finally {
 			s.close();
 		}
-		return category;
+		return order;
 	}
 
 	@Override
-	public boolean deleteCategoryById(String id) {
+	public boolean deleteOrderById(String id) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
@@ -44,30 +44,9 @@ public class CategoryDaoImpl implements CategoryDao {
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			Category category = new Category();
-			category.setCategoryId(Integer.parseInt(id));
-			s.delete(category);
-			t.commit();
-			flag = true;
-		} catch (Exception err) {
-			t.rollback();
-			err.printStackTrace();
-		} finally {
-			s.close();
-		}
-		return flag;
-	}
-
-	@Override
-	public boolean createCategory(Category category) {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-		Session s = null;
-		Transaction t = null;
-		boolean flag = false;
-		try {
-			s = sessionFactory.openSession();
-			t = s.beginTransaction();
-			s.save(category);
+			Order order = new Order();
+			order.setOrderId(Integer.parseInt(id));
+			s.delete(order);
 			t.commit();
 			flag = true;
 		} catch (Exception err) {
@@ -80,7 +59,7 @@ public class CategoryDaoImpl implements CategoryDao {
 	}
 
 	@Override
-	public boolean updateCategory(Category category) {
+	public boolean createOrder(Order order) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
@@ -88,7 +67,28 @@ public class CategoryDaoImpl implements CategoryDao {
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			s.update(category);
+			s.save(order);
+			t.commit();
+			flag = true;
+		} catch (Exception err) {
+			t.rollback();
+			err.printStackTrace();
+		} finally {
+			s.close();
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean updateOrder(Order order) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session s = null;
+		Transaction t = null;
+		boolean flag = false;
+		try {
+			s = sessionFactory.openSession();
+			t = s.beginTransaction();
+			s.update(order);
 			t.commit();
 			flag = true;
 		} catch (Exception err) {
@@ -102,18 +102,18 @@ public class CategoryDaoImpl implements CategoryDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Category> getAllCategorys() {
+	public List<Order> getAllOrders() {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
-		List<Category> uesrs = null;
+		List<Order> orders = null;
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			String hql = "select * from t_category";
-			Query query = s.createSQLQuery(hql).addEntity(Category.class);
+			String hql = "select * from t_order";
+			Query query = s.createSQLQuery(hql).addEntity(Order.class);
 			query.setCacheable(true); // 设置缓存
-			uesrs = query.list();
+			orders = query.list();
 			t.commit();
 		} catch (Exception err) {
 			t.rollback();
@@ -121,7 +121,7 @@ public class CategoryDaoImpl implements CategoryDao {
 		} finally {
 			s.close();
 		}
-		return uesrs;
+		return orders;
 	}
 
 }

@@ -7,24 +7,24 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.innovaee.eorder.bean.Category;
-import com.innovaee.eorder.dao.CategoryDao;
+import com.innovaee.eorder.bean.UserLevel;
+import com.innovaee.eorder.dao.UserLevelDao;
 import com.innovaee.eorder.util.HibernateUtil;
 
-public class CategoryDaoImpl implements CategoryDao {
+public class UserLevelDaoImpl implements UserLevelDao {
 
 	@Override
-	public Category getCategoryById(String id) {
+	public UserLevel getUserLevelById(String id) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
-		Category category = null;
+		UserLevel userLevel = null;
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			String hql = "from Category where categoryId=" + id;
+			String hql = "from UserLevel where levelId=" + id;
 			Query query = s.createQuery(hql);
-			category = (Category) query.uniqueResult();
+			userLevel = (UserLevel) query.uniqueResult();
 			t.commit();
 		} catch (Exception err) {
 			t.rollback();
@@ -32,11 +32,11 @@ public class CategoryDaoImpl implements CategoryDao {
 		} finally {
 			s.close();
 		}
-		return category;
+		return userLevel;
 	}
 
 	@Override
-	public boolean deleteCategoryById(String id) {
+	public boolean deleteUserLevelById(String id) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
@@ -44,30 +44,9 @@ public class CategoryDaoImpl implements CategoryDao {
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			Category category = new Category();
-			category.setCategoryId(Integer.parseInt(id));
-			s.delete(category);
-			t.commit();
-			flag = true;
-		} catch (Exception err) {
-			t.rollback();
-			err.printStackTrace();
-		} finally {
-			s.close();
-		}
-		return flag;
-	}
-
-	@Override
-	public boolean createCategory(Category category) {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-		Session s = null;
-		Transaction t = null;
-		boolean flag = false;
-		try {
-			s = sessionFactory.openSession();
-			t = s.beginTransaction();
-			s.save(category);
+			UserLevel userLevel = new UserLevel();
+			userLevel.setLevelId(Integer.parseInt(id));
+			s.delete(userLevel);
 			t.commit();
 			flag = true;
 		} catch (Exception err) {
@@ -80,7 +59,7 @@ public class CategoryDaoImpl implements CategoryDao {
 	}
 
 	@Override
-	public boolean updateCategory(Category category) {
+	public boolean createUserLevel(UserLevel userLevel) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
@@ -88,7 +67,28 @@ public class CategoryDaoImpl implements CategoryDao {
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			s.update(category);
+			s.save(userLevel);
+			t.commit();
+			flag = true;
+		} catch (Exception err) {
+			t.rollback();
+			err.printStackTrace();
+		} finally {
+			s.close();
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean updateUserLevel(UserLevel userLevel) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session s = null;
+		Transaction t = null;
+		boolean flag = false;
+		try {
+			s = sessionFactory.openSession();
+			t = s.beginTransaction();
+			s.update(userLevel);
 			t.commit();
 			flag = true;
 		} catch (Exception err) {
@@ -102,18 +102,18 @@ public class CategoryDaoImpl implements CategoryDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Category> getAllCategorys() {
+	public List<UserLevel> getAllUserLeveles() {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = null;
 		Transaction t = null;
-		List<Category> uesrs = null;
+		List<UserLevel> userLevel = null;
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			String hql = "select * from t_category";
-			Query query = s.createSQLQuery(hql).addEntity(Category.class);
+			String hql = "select * from t_user_level";
+			Query query = s.createSQLQuery(hql).addEntity(UserLevel.class);
 			query.setCacheable(true); // 设置缓存
-			uesrs = query.list();
+			userLevel = query.list();
 			t.commit();
 		} catch (Exception err) {
 			t.rollback();
@@ -121,7 +121,29 @@ public class CategoryDaoImpl implements CategoryDao {
 		} finally {
 			s.close();
 		}
-		return uesrs;
+		return userLevel;
+	}
+
+	@Override
+	public UserLevel getUserLevelByUserId(String userId) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session s = null;
+		Transaction t = null;
+		UserLevel userLevel = null;
+		try {
+			s = sessionFactory.openSession();
+			t = s.beginTransaction();
+			String hql = "from UserLevel where user_id=" + userId;
+			Query query = s.createQuery(hql);
+			userLevel = (UserLevel) query.uniqueResult();
+			t.commit();
+		} catch (Exception err) {
+			t.rollback();
+			err.printStackTrace();
+		} finally {
+			s.close();
+		}
+		return userLevel;
 	}
 
 }
