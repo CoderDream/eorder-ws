@@ -133,7 +133,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 			s = sessionFactory.openSession();
 			t = s.beginTransaction();
-			String hql = "from User where cellphone=" + cellphone;
+			String hql = "from User where cellphone='" + cellphone + "'";
 			Query query = s.createQuery(hql);
 			user = (User) query.uniqueResult();
 			t.commit();

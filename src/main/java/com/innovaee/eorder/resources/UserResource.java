@@ -80,15 +80,16 @@ public class UserResource {
 			@PathParam("cellphone") String cellphone) {
 		User user = userDaoImpl.getUserByCellphone(cellphone);
 		UserVO userVO = new UserVO();
-		try {
-			BeanUtils.copyProperties(userVO, user);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		UserLevel userLevel = null;
+		
 		if (null != user) {
+			try {
+				BeanUtils.copyProperties(userVO, user);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+			UserLevel userLevel = null;
 			userLevel = userLevelDaoImpl.getUserLevelById(user.getLevelId()
 					.toString());
 			userVO.setDiscount(userLevel.getDiscount());
