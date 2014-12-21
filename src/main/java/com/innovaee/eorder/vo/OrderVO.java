@@ -1,23 +1,38 @@
+/***********************************************
+ * Filename		: OrderVO.java																									: DishService.java
+ * Copyright  	: Copyright (c) 2014
+ * Company    	: Innovaee
+ * Created	    : 11/27/2014
+ ************************************************/
 package com.innovaee.eorder.vo;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.innovaee.eorder.util.TimestampAdapter;
-
+/**
+ * @Title: OrderVO
+ * @Description: 订单值对象
+ * @author coderdream@gmail.com
+ * @version V1.0
+ */
 @XmlRootElement
 public class OrderVO implements Serializable {
 
-	// 订单ID
+	/**
+	 * 订单ID
+	 */
 	private Integer orderId;
 
-	// 订单时间
+	/**
+	 * 订单时间
+	 */
 	private Timestamp createAt;
 
-	// 订单总价
+	/**
+	 * 订单总价
+	 */
 	private Float totalPrice;
 
 	public OrderVO() {
@@ -43,7 +58,6 @@ public class OrderVO implements Serializable {
 		return createAt;
 	}
 
-	@XmlJavaTypeAdapter(TimestampAdapter.class)
 	public void setCreateAt(Timestamp createAt) {
 		this.createAt = createAt;
 	}
