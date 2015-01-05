@@ -11,17 +11,28 @@ import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-/**   
-* @Title: TimestampAdapter 
-* @Description: 时间适配器
-* @author coderdream@gmail.com
-* @version V1.0   
-*/
+/**
+ * @Title: TimestampAdapter
+ * @Description: 时间适配器
+ * @version V1.0
+ */
 public class TimestampAdapter extends XmlAdapter<Date, Timestamp> {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
+	 */
 	public Timestamp unmarshal(Date val) throws Exception {
 		return new Timestamp(val.getTime());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
+	 */
 	public Date marshal(Timestamp val) throws Exception {
 		return new Date(val.getTime());
 	}

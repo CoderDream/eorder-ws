@@ -27,19 +27,22 @@ import com.innovaee.eorder.vo.UserVO;
 /**
  * @Title: UserResource
  * @Description: 用户资源
- * @author coderdream@gmail.com
  * @version V1.0
  */
 @Path("/users")
-public class UserResource {
+public class UserResource extends AbstractBaseResource {
+
+	/** 用户数据访问实现类对象 */
 	private UserDaoImpl userDaoImpl = new UserDaoImpl();
 
+	/** 用户等级数据访问实现类对象 */
 	private UserLevelDaoImpl userLevelDaoImpl = new UserLevelDaoImpl();
 
 	/**
 	 * 根据手机号码查询用户信息
 	 * 
 	 * @param cellphone
+	 *            手机号码
 	 * @return 用户值对象
 	 */
 	@GET
@@ -54,9 +57,9 @@ public class UserResource {
 			try {
 				BeanUtils.copyProperties(userVO, user);
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage());
 			} catch (InvocationTargetException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage());
 			}
 			UserLevel userLevel = null;
 			userLevel = userLevelDaoImpl.getUserLevelById(user.getLevelId()

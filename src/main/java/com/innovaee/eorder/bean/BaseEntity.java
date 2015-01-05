@@ -7,24 +7,39 @@
 package com.innovaee.eorder.bean;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
+import java.sql.Timestamp;
 
-import org.apache.commons.beanutils.BeanUtils;
+import javax.persistence.Column;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import com.innovaee.eorder.util.TimestampAdapter;
+
 /**
  * @Title: BaseEntity
  * @Description: 实体类的基类
- * @author coderdream@gmail.com
+ * 
  * @version V1.0
  */
 public abstract class BaseEntity implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	/** 创建时间 */
+	@Column(name = "create_at")
+	private Timestamp createAt;
 
+	/** 更新时间 */
+	@Column(name = "update_at")
+	private Timestamp updateAt;
+
+	/**
+	 * 返回主键
+	 * 
+	 * @return 主键
+	 */
 	public abstract Serializable getPK();
 
 	public String toString() {
@@ -40,13 +55,22 @@ public abstract class BaseEntity implements Serializable {
 		return HashCodeBuilder.reflectionHashCode(this);
 	}
 
-	public void copy(Object orig) {
-		try {
-			BeanUtils.copyProperties(this, orig);
-		} catch (InvocationTargetException e) {
-			System.out.println(e.getMessage());
-		} catch (IllegalAccessException e) {
-			System.out.println(e.getMessage());
-		}
+	@XmlJavaTypeAdapter(TimestampAdapter.class)
+	public Timestamp getCreateAt() {
+		return createAt;
 	}
+
+	public void setCreateAt(Timestamp createAt) {
+		this.createAt = createAt;
+	}
+
+	@XmlJavaTypeAdapter(TimestampAdapter.class)
+	public Timestamp getUpdateAt() {
+		return updateAt;
+	}
+
+	public void setUpdateAt(Timestamp updateAt) {
+		this.updateAt = updateAt;
+	}
+
 }

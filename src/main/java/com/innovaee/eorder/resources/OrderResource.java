@@ -29,13 +29,15 @@ import com.innovaee.eorder.vo.OrderVO;
 /**
  * @Title: OrderResource
  * @Description: 订单资源
- * @author coderdream@gmail.com
  * @version V1.0
  */
 @Path("/orders")
-public class OrderResource {
+public class OrderResource extends AbstractBaseResource {
+
+	/** 订单数据访问实现类对象 */
 	private OrderDaoImpl orderDaoImpl = new OrderDaoImpl();
 
+	/** 用户数据访问实现类对象 */
 	private UserDaoImpl userDaoImpl = new UserDaoImpl();
 
 	/**
@@ -50,22 +52,25 @@ public class OrderResource {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Map<String, List<OrderVO>> getOrderesById(
 			@PathParam("cellphone") String cellphone) {
+		// 1. 通过手机号码查找用户信息
 		User user = userDaoImpl.getUserByCellphone(cellphone);
 		List<OrderVO> orderVOs = new ArrayList<OrderVO>();
-		List<Order> orders = orderDaoImpl.getOrdersByMemberId(user.getUserId()
-				.toString());
+		// 2. 根据用户ID查找用户的订单信息
+		List<Order> orders = orderDaoImpl.getOrdersByMemberId(user.getUserId());
 		for (Order order : orders) {
 			OrderVO orderVO = new OrderVO();
 			try {
+				// 将用户对象的信息复制到用户值对象中，用于返回给客户端
 				BeanUtils.copyProperties(orderVO, order);
 				orderVOs.add(orderVO);
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage());
 			} catch (InvocationTargetException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage());
 			}
 		}
 
+		// 构造返回Map
 		Map<String, List<OrderVO>> result = new HashMap<String, List<OrderVO>>();
 		result.put("orders", orderVOs);
 		return result;

@@ -22,11 +22,13 @@ import com.innovaee.eorder.dao.impl.CategoryDaoImpl;
 /**
  * @Title: CategoryResource
  * @Description: 菜品分类资源
- * @author coderdream@gmail.com
+ * 
  * @version V1.0
  */
 @Path("/categories")
-public class CategoryResource {
+public class CategoryResource extends AbstractBaseResource {
+
+	/** 菜品分类数据访问实现类对象 */
 	private CategoryDaoImpl categoryDaoImpl = new CategoryDaoImpl();
 
 	/**
@@ -36,7 +38,7 @@ public class CategoryResource {
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Map<String, List<Category>> getAllCategorys() {
+	public Map<String, List<Category>> getAllCategories() {
 		List<Category> categories = new ArrayList<Category>();
 		categories = categoryDaoImpl.getAllCategories();
 		Map<String, List<Category>> result = new HashMap<String, List<Category>>();

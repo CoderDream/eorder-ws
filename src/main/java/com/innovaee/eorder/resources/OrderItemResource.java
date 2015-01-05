@@ -29,25 +29,29 @@ import com.innovaee.eorder.vo.OrderItemVO;
 /**
  * @Title: OrderItemResource
  * @Description: 订单明细资源
- * @author coderdream@gmail.com
  * @version V1.0
  */
 @Path("/orderitems")
-public class OrderItemResource {
+public class OrderItemResource extends AbstractBaseResource {
+
+	/** 订单明细数据访问实现类对象 */
 	private OrderItemDaoImpl orderItemDaoImpl = new OrderItemDaoImpl();
+
+	/** 菜品数据访问实现类对象 */
 	private DishDaoImpl dishDaoImpl = new DishDaoImpl();
 
 	/**
-	 * 根据orderId查询
+	 * 根据orderId查询订单明细
 	 * 
-	 * @param id
-	 * @return
+	 * @param orderId
+	 *            订单ID
+	 * @return 订单明细
 	 */
 	@GET
 	@Path("/myorderitems/{orderId}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Map<String, List<OrderItemVO>> getOrderItemsByOrderId(
-			@PathParam("orderId") String orderId) {
+			@PathParam("orderId") Integer orderId) {
 		List<OrderItemVO> orderItemVOs = new ArrayList<OrderItemVO>();
 		Dish dish = null;
 		OrderItemVO orderItemVO = null;
@@ -59,14 +63,13 @@ public class OrderItemResource {
 			try {
 				BeanUtils.copyProperties(orderItemVO, orderItem);
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage());
 			} catch (InvocationTargetException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage());
 			}
 
 			if (null != orderItem) {
-				dish = dishDaoImpl
-						.getDishById(orderItem.getDishId().toString());
+				dish = dishDaoImpl.getDishById(orderItem.getDishId());
 				orderItemVO.setDishName(dish.getDishName());
 				orderItemVO.setDishPicture(dish.getDishPicture());
 				orderItemVO.setDishPrice(dish.getDishPrice());

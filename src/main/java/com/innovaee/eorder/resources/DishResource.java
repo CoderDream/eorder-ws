@@ -22,11 +22,12 @@ import com.innovaee.eorder.dao.impl.DishDaoImpl;
 /**
  * @Title: DishResource
  * @Description: 菜品资源
- * @author coderdream@gmail.com
  * @version V1.0
  */
 @Path("/dishes")
-public class DishResource {
+public class DishResource extends AbstractBaseResource {
+
+	/** 菜品数据访问实现类对象 */
 	private DishDaoImpl dishDaoImpl = new DishDaoImpl();
 
 	/**
@@ -40,11 +41,12 @@ public class DishResource {
 	@Path("/mydishes/{categoryId}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Map<String, List<Dish>> getDishesById(
-			@PathParam("categoryId") String categoryId) {
+			@PathParam("categoryId") Integer categoryId) {
 		List<Dish> dishes = dishDaoImpl.getDishesByCategoryId(categoryId);
 
 		Map<String, List<Dish>> result = new HashMap<String, List<Dish>>();
 		result.put("dishes", dishes);
+
 		return result;
 	}
 

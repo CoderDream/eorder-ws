@@ -9,13 +9,16 @@ package com.innovaee.eorder.rest;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.glassfish.jersey.server.ResourceConfig;
 
-/**   
-* @Title: RestApplication 
-* @Description: REST应用入口 
-* @author coderdream@gmail.com   
-* @version V1.0   
-*/
+/**
+ * @Title: RestApplication
+ * @Description: REST应用入口
+ * 
+ * @version V1.0
+ */
 public class RestApplication extends ResourceConfig {
+	/**
+	 * 构造函数
+	 */
 	public RestApplication() {
 		// 服务类所在的包路径
 		packages("com.innovaee.eorder.resources");

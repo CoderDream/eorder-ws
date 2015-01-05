@@ -14,37 +14,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * @Title: OrderVO
  * @Description: 订单值对象
- * @author coderdream@gmail.com
+ * 
  * @version V1.0
  */
 @XmlRootElement
 public class OrderVO implements Serializable {
 
-	/**
-	 * 订单ID
-	 */
+	/** 订单ID */
 	private Integer orderId;
 
-	/**
-	 * 订单时间
-	 */
+	/** 订单时间 */
 	private Timestamp createAt;
 
-	/**
-	 * 订单总价
-	 */
+	/** 订单总价 */
 	private Float totalPrice;
-
-	public OrderVO() {
-
-	}
-
-	public OrderVO(Integer orderId, Timestamp createAt, Float totalPrice) {
-		super();
-		this.orderId = orderId;
-		this.createAt = createAt;
-		this.totalPrice = totalPrice;
-	}
 
 	public Integer getOrderId() {
 		return orderId;
